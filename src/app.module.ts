@@ -1,22 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { ConfigModule } from '@nestjs/config';
-import { User } from './users/user.entity';
 import { DataSourceModule } from './data-source/data-source.module';
+import { UserModule } from './user-data-souerc/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      cache: true,
-      isGlobal: true,
-    }),
-    DataSourceModule,
-    TypeOrmModule.forFeature([User]),
-  ],
-  controllers: [UsersController],
-  providers: [UsersService],
+  imports: [DataSourceModule, UserModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
