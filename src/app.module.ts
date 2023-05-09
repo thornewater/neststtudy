@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import 'dotenv/config';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './users/user.entity';
+import { DataSourceModule } from './data-source/data-source.module';
 
 @Module({
   imports: [
@@ -12,15 +13,7 @@ import { User } from './users/user.entity';
       cache: true,
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [User],
-    }),
+    DataSourceModule,
     TypeOrmModule.forFeature([User]),
   ],
   controllers: [UsersController],
