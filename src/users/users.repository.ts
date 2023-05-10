@@ -7,7 +7,7 @@ import { CreateUserDto } from './dto/user.dto';
 @Injectable()
 export class UsersRepository {
   @InjectRepository(User)
-  private usersRepository: Repository<User>;
+  private readonly usersRepository: Repository<User>;
 
   async getByUserId(userId: number) {
     const result = await this.usersRepository.findOneBy({ id: userId });
@@ -15,6 +15,9 @@ export class UsersRepository {
       throw new HttpException('userId not valid', HttpStatus.BAD_REQUEST);
     }
     return result;
+  }
+  async getByUserAccount(account: string): Promise<User> {
+    return await this.usersRepository.findOneBy({ account: account });
   }
 
   async saveUser(user: CreateUserDto) {
